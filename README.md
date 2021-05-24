@@ -22,15 +22,16 @@ Name|Type|Description
 suit|str|花色，共四种: 'spades'-黑桃, 'hearts'-红桃, 'clubs'-梅花, 'diamonds'-方块
 rank|int|数值，1-13
 
-Function:
+#### Function:
 ```Python
 __init__(self, suit: str, rank: int) -> Card
 ```
+<br />
+<br />
 
-
-class **State**<br />
-Attributes:
-Name | Description
------|------------
-num_player|本局玩家总数
+### utils.State<br />
+#### Attributes:
+Name|Type|Description
+----|----|-----------
+num_player|int|本局玩家总数
 
