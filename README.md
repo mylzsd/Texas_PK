@@ -77,7 +77,7 @@ Name|Type|Description
 ----|----|-----------
 player_seat|int|下注玩家的座次
 action|str|utils.ACTIONS中的任意一种
-amount|int|本次下注的金额，当action为'bet'或'allin'时此参数有意义
+amount|int|本次下注的额度，当action为'bet'或'allin'时此参数才有意义，其他情况下为don't care
 
 #### Function:
 ```Python
@@ -91,7 +91,10 @@ __init__(self, suit: str, rank: int) -> Card
 Name|Type|Description
 ----|----|-----------
 num_player|int|本局玩家总数
-
+bottom|int|当前庄家座次
+small_blind|int|当前小盲注座次
+big_blind|int|当前大盲注座次
+curr_round|int|当前轮次
 players|\[PlayerInfo\]|根据座次依次显示玩家信息
 
 
