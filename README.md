@@ -29,6 +29,11 @@ __init__(self, suit: str, rank: int) -> Card
 <br />
 <br />
 
+### utils.PlayerInfo<br />
+#### Attributes:
+Name|Type|Description
+----|----|-----------
+
 ### utils.State<br />
 #### Attributes:
 Name|Type|Description
