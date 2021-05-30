@@ -1,5 +1,50 @@
 # Texas_PK
 
+### utils.GameInfo
+#### Attributes:
+Name|Type|Description
+----|----|-----------
+num_player|int|本场游戏玩家总数
+init_stack|int|每位玩家的起始筹码数量
+players|\[PlayerInfo\]|每位玩家的具体信息，玩家的座次等于其在数组中的位置
+<br />
+<br />
+
+### utils.RoundInfo
+#### Attributes:
+Name|Type|Description
+----|----|-----------
+button|int|本局游戏发牌人座次
+small_blind|int|本局游戏小盲注座次
+big_blind|int|本局游戏大盲注座次
+<br />
+<br />
+
+### utils.State<br />
+#### Attributes:
+Name|Type|Description
+----|----|-----------
+curr_turn|int|当前轮次
+players|\[PlayerInfo\]|当前每位玩家的具体信息，玩家的座次等于其在数组中的位置
+community_cards|\[Card\]|公共牌，最少零张，最多五张，扑克牌在数组中的位置越靠前表示这张牌越早发出
+curr_bet|BetInfo|本次下注动作的信息
+pots|\[PotInfo\]|当前所有筹码池信息
+<br />
+<br />
+
+### utils.PlayerInfo<br />
+#### Attributes:
+Name|Type|Description
+----|----|-----------
+name|str|玩家ID，不体现真实身份，在同一桌的多场游戏中保持一致
+seat|int|本场游戏中的座位号
+state|PlayerState|当前状态
+stack|int|当前持有的筹码
+cards|\[Card\]|玩家手牌，在每局下注时隐藏，直到最后开牌比大小时显示
+<br />
+<br />
+
+
 ### utils.SUITS
 ```Python
 ['spades', 'hearts', 'clubs', 'diamonds']
@@ -14,6 +59,7 @@ list(range(1, 14))
 牌面数值，1-13。1->A, 11->J, 12->Q, 13->K
 <br />
 <br />
+
 ### utils.ACTIONS
 ```Python
 ['bet', 'allin', 'fold', 'blind', 'timeout', 'illegal']
@@ -60,10 +106,10 @@ cards|[Card]|当前手牌
 __init__(self, name: str)
 ```
 ```Python
-game_start(self, seat: int, stack: int) -> None
+game_start(self, game_info: GameInfo) -> None
 ```
 ```Python
-game_end(self, player_ranks: [int]) -> None
+game_end(self, game_info: GameInfo) -> None
 ```
 ```Python
 round_start(self, state: State) -> None
@@ -87,18 +133,6 @@ amount|int|本次下注的额度，当action为'bet'或'allin'时此参数才有
 <br />
 <br />
 
-### utils.PlayerInfo<br />
-#### Attributes:
-Name|Type|Description
-----|----|-----------
-name|str|玩家ID，不体现真实身份，在同一桌的多次对局中保持一致
-seat|int|当前座位号
-state|str|utils.PLAYER_STATE中任意一种
-stack|int|当前筹码
-cards|\[Card\]|当前手牌，在每轮下注时隐藏，直到最后开牌比大小时显示
-<br />
-<br />
-
 ### utils.PotInfo<br />
 #### Attributes:
 Name|Type|Description
@@ -109,19 +143,6 @@ players|\[int\]|该筹码包含玩家的座次编号，当有玩家allin后，�
 winners|\[int\]|该筹码池获胜玩家座次，当每轮结束时显示，平手时会包含多名玩家，不分先后
 <br />
 <br />
-
-### utils.State<br />
-#### Attributes:
-Name|Type|Description
-----|----|-----------
-num_player|int|本场玩家总数
-bottom|int|当前发牌人座次
-small_blind|int|当前小盲注座次
-big_blind|int|当前大盲注座次
-curr_round|int|当前轮次
-curr_bet|BetInfo|本次下注动作的信息
-players|\[PlayerInfo\]|根据座次依次显示玩家信息
-pots|\[PotInfo\]|当前筹码池信息
 
 
 
