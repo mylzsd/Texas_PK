@@ -1,20 +1,23 @@
 # Texas_PK
 
 ### utils.SUITS
-\['spades', 'hearts', 'clubs', 'diamonds'\]
-<br />
+```Python
+['spades', 'hearts', 'clubs', 'diamonds']
+```
 牌面花色，共四种：'spades'-黑桃, 'hearts'-红桃, 'clubs'-梅花, 'diamonds'-方块
 <br />
 <br />
 ### utils.RANKS
+```Python
 list(range(1, 14))
-<br />
+```
 牌面数值，1-13。1->A, 11->J, 12->Q, 13->K
 <br />
 <br />
 ### utils.ACTIONS
-\['bet', 'allin', 'fold', 'blind', 'timeout', 'illegal'\]
-<br />
+```Python
+['bet', 'allin', 'fold', 'blind', 'timeout', 'illegal']
+```
 几种不同的下注行为，其中玩家的callback只用'bet'和'fold'。其余的会在BetInfo中用来体现操作类型。
 - bet：普通下注，需要加上额度
 - allin：下注额为当前持有的全部筹码
@@ -24,6 +27,14 @@ list(range(1, 14))
 - illegal：玩家下注额度不符合规则，直接淘汰
 <br />
 <br />
+### utils.PLAYER_STATE
+```Python
+['playing', 'fold', 'out']
+```
+玩家当前状态
+- playing：正在参与本局游戏
+- fold：已在本局游戏中弃牌，但并未从本场游戏淘汰
+- out：已从本场游戏中淘汰（筹码归零）
 
 ### utils.Card<br />
 #### Attributes:
@@ -46,12 +57,22 @@ cards|[Card]|当前手牌
 # TODO
 #### Functions:
 ```Python
-__init__(self, name: str) -> BasePlayer
-
-game_start(self, seat: int) -> None
+__init__(self, name: str)
 ```
 ```Python
-round_start()
+game_start(self, seat: int, stack: int) -> None
+```
+```Python
+game_end(self, player_ranks: [int]) -> None
+```
+```Python
+round_start(self, state: State) -> None
+```
+```Python
+round_end(self, state: State) -> None
+```
+```Python
+set_stack(self, stack: State) -> None
 ```
 <br />
 <br />
@@ -72,7 +93,7 @@ Name|Type|Description
 ----|----|-----------
 name|str|玩家ID，不体现真实身份，在同一桌的多次对局中保持一致
 seat|int|当前座位号
-state|str|
+state|str|utils.PLAYER_STATE中任意一种
 stack|int|当前筹码
 cards|\[Card\]|当前手牌，在每轮下注时隐藏，直到最后开牌比大小时显示
 <br />
