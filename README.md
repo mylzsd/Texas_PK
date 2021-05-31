@@ -113,7 +113,7 @@ ILLEGAL|5|玩家下注额度不符合规则，直接淘汰
 #### Attributes:
 Name|Type|Description
 ----|----|-----------
-id|int|筹码池ID，等于该筹码池在数组中的位置
+pot_id|int|筹码池ID，等于该筹码池在数组中的位置
 amount|int|该筹码池当前总额
 players|\[int\]|该筹码池包含玩家的座次
 winners|\[int\]|该筹码池获胜玩家的座次，当每局结束时显示，平手时会包含多名玩家，不分先后
