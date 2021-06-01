@@ -121,37 +121,95 @@ winners|\[int\]|该筹码池获胜玩家的座次，当每局结束时显示，�
 <br />
 
 ### *class* utils.BasePlayer<br />
-玩家需要继承的类
-
-# TODO
+玩家需要实现一个名为Player的类，并继承此类。<br />
+下列函数可在Player类中覆盖，但是接口参数和返回类型必须保持一致。
 #### Functions:
+
+****
+
 ```Python
 __init__(self, name: str)
 ```
+##### Input：<br />
+Name|Type|Description
+----|----|-----------
+name|str|名字，用于标识玩家，且不会关联现实中的身份。Player对象的生命周期为一或多场游戏，在这期间，名字保持不变，并对所有人可见，可用于记录玩家的行为模式。
+
+****
+
 ```Python
 game_start(self, game_info: GameInfo) -> None
 ```
+##### Input：<br />
+Name|Type|Description
+----|----|-----------
+game_info|GameInfo|
+
+****
+
 ```Python
 game_end(self, game_info: GameInfo) -> None
 ```
+##### Input：<br />
+Name|Type|Description
+----|----|-----------
+
+****
+
 ```Python
 round_start(self, round_info: RoundInfo) -> None
 ```
+##### Input：<br />
+Name|Type|Description
+----|----|-----------
+
+****
+
 ```Python
 round_end(self, table_state: TableState) -> None
 ```
+##### Input：<br />
+Name|Type|Description
+----|----|-----------
+
+****
+
 ```Python
 update_state(self, table_state: TableState) -> None
 ```
+##### Input：<br />
+Name|Type|Description
+----|----|-----------
+
+****
+
 ```Python
 blind_bet(self, big_blind: bool, amount: int) -> None
 ```
+##### Input：<br />
+Name|Type|Description
+----|----|-----------
+
+****
+
 ```Python
 set_cards(self, cards: [Card]) -> None
 ```
+##### Input：<br />
+Name|Type|Description
+----|----|-----------
+
+****
+
 ```Python
 get_action(self, table_state: TableState) -> BetInfo
 ```
+##### Input：<br />
+Name|Type|Description
+----|----|-----------
+##### Output：<br />
+Name|Type|Description
+----|----|-----------
 <br />
 <br />
 
