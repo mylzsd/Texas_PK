@@ -52,6 +52,7 @@ cards|\[Card\]|玩家手牌，在每局下注时隐藏，直到最后开牌比�
 <br />
 
 ### *enum* utils.PlayerState<br />
+玩家状态枚举
 #### Values：
 Name|Value|Description
 ----|-----|-----------
@@ -62,6 +63,7 @@ OUT|2|已从本场游戏中淘汰（筹码归零或犯规）
 <br />
 
 ### *class* utils.Card<br />
+一张扑克牌
 #### Attributes:
 Name|Type|Description
 ----|----|-----------
@@ -72,6 +74,7 @@ rank|int|数值，1-13。1->A, 11->J, 12->Q, 13->K
 
 
 ### *enum* utils.Suit<br />
+花色枚举
 #### Values：
 Name|Value|Description
 ----|-----|-----------
@@ -94,6 +97,7 @@ amount|int|下注的额度。作为玩家返回值且action为BET，或者作为
 <br />
 
 ### *enum* utils.Action
+玩家操作类型枚举
 #### Values：
 Name|Value|Description
 ----|-----|-----------
