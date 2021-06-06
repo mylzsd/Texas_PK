@@ -88,16 +88,16 @@ DIAMONDS|3|方块
 Name|Type|Description
 ----|----|-----------
 player_seat|int|玩家的座次
-action|Action|操作类型
-amount|int|下注的额度，当action为BET或ALLIN时此参数才有意义，其他情况下为don't care
+action|Action|操作类型。作为玩家返回值时，须为BET、ALLIN、FOLD中的一种；作为信息广播时，可为ACTION中任意值
+amount|int|下注的额度。作为玩家返回值且action为BET，或者作为信息广播且action为BET或ALLIN时，此参数才有意义，其他情况下无意义
 <br />
 <br />
 
-### *enum* utils.ACTION
+### *enum* utils.Action
 #### Values：
 Name|Value|Description
 ----|-----|-----------
-BET|0|普通下注，需要加上额度
+BET|0|普通下注，须加上额度
 ALLIN|1|下注额为当前持有的全部筹码
 FOLD|2|弃牌，棋牌后不得参与本局后续的下注，已投入的筹码不能取回
 BLIND|3|盲注，游戏规定的强制下注
@@ -121,9 +121,24 @@ winners|\[int\]|该筹码池获胜玩家的座次，当每局结束时显示，�
 <br />
 <br />
 
+### *function* utils.cmp_hand(hand_a: [Card], hand_b[Card]) -> int
+用于比较两手牌的大小，输入的两手牌须为大小等于5的Card数组。单手牌中组合必须合法，例：不得有五张同数字，不得有两张花色数组完全相同。两手牌的组合不要求合法，例：两手牌中同数字的牌可超过四张。
+##### Input：<br />
+Name|Type|Description
+----|----|-----------
+hand_a|[Card]|第一手牌
+hand_b|[Card]|第二手牌
+
+##### Output：<br />
+Type|Description
+----|-----------
+int|-1 - hand_a较小<br /> 0 - 两手牌相等<br /> 1 - hand_a较大
+<br />
+<br />
+
 ### *class* utils.BasePlayer<br />
 玩家需要实现一个名为Player的类，并继承此类。<br />
-下列函数可在Player类中覆盖，但是接口参数和返回类型必须保持一致。
+下列函数可在Player类中重写覆盖，接口参数和返回值的类型必须保持一致。
 #### Functions:
 
 ****
@@ -131,40 +146,56 @@ winners|\[int\]|该筹码池获胜玩家的座次，当每局结束时显示，�
 ```Python
 __init__(self, name: str)
 ```
+初始化函数，无需在内部调用父类的初始化函数（super().\_\_init\_\_）。
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
 name|str|名字，用于标识玩家，且不会关联现实中的身份。Player对象的生命周期为一或多场游戏，在这期间，名字保持不变，并对所有人可见，可用于记录玩家的行为模式。
+
+<br />
+<br />
 
 ****
 
 ```Python
 game_start(self, game_info: GameInfo) -> None
 ```
+每场游戏开始时，通过此函数将本场游戏的初始信息同步给所有玩家。
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
-game_info|GameInfo|本场游戏开始时的信息，可参考GameInfo类。此时players中所有元素均为初始状态，ranks无效，后续实时状态在TableSate中更新。
+game_info|GameInfo|本场游戏的初始信息，参考GameInfo类。此时players中所有元素均为初始状态，ranks无效，后续实时状态在TableSate中更新。
+
+<br />
+<br />
 
 ****
 
 ```Python
 game_end(self, game_info: GameInfo) -> None
 ```
+每场游戏结束时，通过此函数将本场游戏的结果同步给所有玩家。
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
-game_info|GameInfo|本场游戏结束时的信息，可参考GameInfo类。此时players为最后状态；ranks表示本场游戏最终排名。
+game_info|GameInfo|本场游戏结束时的信息，参考GameInfo类。此时players为最后状态；ranks表示本场游戏最终排名。
+
+<br />
+<br />
 
 ****
 
 ```Python
 round_start(self, round_info: RoundInfo) -> None
 ```
+每局游戏开始时，通过此函数将本局的信息同步给所有玩家，包括已淘汰的玩家。
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
 round_info|RoundInfo|本局游戏基本信息，参考RoundInfo类。
+
+<br />
+<br />
 
 ****
 
@@ -177,6 +208,9 @@ Name|Type|Description
 ----|----|-----------
 table_state|TableState|本局游戏结束时桌面的信息。其中各玩家的筹码为结算后的数额，curr_bet无效，pots中的的winners此时有效。
 
+<br />
+<br />
+
 ****
 
 ```Python
@@ -187,6 +221,9 @@ update_state(self, table_state: TableState) -> None
 Name|Type|Description
 ----|----|-----------
 table_state|TableState|参考TableState类。此时pots中的winners无效。
+
+<br />
+<br />
 
 ****
 
@@ -200,6 +237,9 @@ Name|Type|Description
 is_big_blind|bool|True - 此次下注为大盲注<br />False - 此次下注为小盲注
 amount|int|盲注的数额
 
+<br />
+<br />
+
 ****
 
 ```Python
@@ -212,6 +252,9 @@ Name|Type|Description
 card_a|Card|第一张扑克牌
 card_b|Card|第二张扑克牌
 
+<br />
+<br />
+
 ****
 
 ```Python
@@ -221,12 +264,12 @@ get_action(self, table_state: TableState) -> BetInfo
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
-tabel_state|TableState|执行操作时的桌面状态，此状态于最后一次广播同步时的相同。
+tabel_state|TableState|执行操作时的桌面状态，此状态与上一次广播同步时的相同。
 
 ##### Output：<br />
 Type|Description
 ----|-----------
-BetInfo|TODO
+BetInfo|此时返回的BetInfo中，player_seat无意义，游戏会判断操作来自哪位玩家；action须为BET、ALLIN、FOLD中的一种；amount仅在action为BET时有效，其他情况下无意义。<br />**注意：** <br />下注时额度不得少于当前大盲注，加注时额度不得少于上一次下注/加注。<br />例：大盲注为40，第一次加注为60，此时跟注额为100；第二次加注最小值为60，即跟注额度将增加到120。
 
 <br />
 <br />
