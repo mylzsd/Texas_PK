@@ -7,6 +7,7 @@ Name|Type|Description
 ----|----|-----------
 num_player|int|本场游戏玩家总数
 init_stack|int|每位玩家的起始筹码数量
+init_big_blind_amount|int|本场游戏初始大盲注数额，小盲注为该数额的一半，该数额确保能被2整除，即小盲注也为整数。随着游戏进行，盲注数额会逐渐增加。
 players|\[PlayerInfo\]|每位玩家的具体信息，玩家的座位号等于其在数组中的位置
 ranks|\[int\]|本场游戏的排名，以座位号对应玩家，在数组中的位置越靠前则排名越高，在每场游戏结束时显示
 <br />
@@ -20,7 +21,7 @@ Name|Type|Description
 button|int|本局游戏发牌人座位号
 small_blind|int|本局游戏小盲注座位号
 big_blind|int|本局游戏大盲注座位号
-big_blind_amount|int|本局游戏大盲注的数额，小盲注为该数额的一半，该数额确保能被2整除，即小盲注也为整数
+big_blind_amount|int|本局游戏大盲注的数额，小盲注为该数额的一半，该数额确保能被2整除，即小盲注也为整数。大盲注的额度为本局最小的下注额度。
 <br />
 <br />
 
@@ -29,7 +30,7 @@ big_blind_amount|int|本局游戏大盲注的数额，小盲注为该数额的�
 #### Attributes:
 Name|Type|Description
 ----|----|-----------
-curr_turn|int|当前轮次，每局游戏最多会有五轮下注，分别为：<br />0 - 盲注，<br />1 - 发公共牌之前，<br />2 - 发完前三张公共牌后，<br />3 - 发完第四张公共牌后，<br />4 - 发完最后一张公共牌后 
+curr_turn|int|当前轮次，每局游戏最多会有五轮下注，分别为：<br />0 - 盲注，<br />1 - 发公共牌之前，<br />2 - 发完前三张公共牌后，<br />3 - 发完第四张公共牌后，<br />4 - 发完最后一张公共牌后，<br />5 - 筹码结算后。 
 players|\[PlayerInfo\]|当前每位玩家的具体信息，玩家的座位号等于其在数组中的位置
 community_cards|\[Card\]|公共牌，最少零张，最多五张，扑克牌在数组中的位置越靠前表示这张牌越早发出
 curr_bet|BetInfo|本次玩家操作的信息
@@ -143,7 +144,7 @@ game_start(self, game_info: GameInfo) -> None
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
-game_info|GameInfo|
+game_info|GameInfo|本场游戏开始时的信息，可参考GameInfo类。此时players中所有元素均为初始状态，ranks无效，后续实时状态在TableSate中更新。
 
 ****
 
@@ -153,6 +154,7 @@ game_end(self, game_info: GameInfo) -> None
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
+game_info|GameInfo|本场游戏结束时的信息，可参考GameInfo类。此时players为最后状态；ranks表示本场游戏最终排名。
 
 ****
 
@@ -162,54 +164,70 @@ round_start(self, round_info: RoundInfo) -> None
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
+round_info|RoundInfo|本局游戏基本信息，参考RoundInfo类。
 
 ****
 
 ```Python
 round_end(self, table_state: TableState) -> None
 ```
+筹码结算后通过此函数将桌面状态同步给所有玩家，包括已淘汰的玩家。
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
+table_state|TableState|本局游戏结束时桌面的信息。其中各玩家的筹码为结算后的数额，curr_bet无效，pots中的的winners此时有效。
 
 ****
 
 ```Python
 update_state(self, table_state: TableState) -> None
 ```
+任何玩家操作后会通过此函数将桌面状态同步给所有玩家，包括执行该操作的玩家自身。
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
+table_state|TableState|参考TableState类。此时pots中的winners无效。
 
 ****
 
 ```Python
-blind_bet(self, big_blind: bool, amount: int) -> None
+blind_bet(self, is_big_blind: bool, amount: int) -> None
 ```
+当轮到玩家下盲注时，通过此函数通知玩家。此函数无需返回数值，游戏会自动计算玩家当前筹码。
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
+is_big_blind|bool|True - 此次下注为大盲注<br />False - 此次下注为小盲注
+amount|int|盲注的数额
 
 ****
 
 ```Python
-set_cards(self, cards: [Card]) -> None
+set_cards(self, card_a: Card, card_b: Card) -> None
 ```
+在盲注之后每位玩家发两张私有牌，除最终比大小时须公开，其他时间私有牌仅玩家自己可见。
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
+card_a|Card|第一张扑克牌
+card_b|Card|第二张扑克牌
 
 ****
 
 ```Python
 get_action(self, table_state: TableState) -> BetInfo
 ```
+当轮到玩家操作（下注、加注、弃牌）时，通过此函数获得玩家的操作信息。
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
+tabel_state|TableState|执行操作时的桌面状态，此状态于最后一次广播同步时的相同。
+
 ##### Output：<br />
-Name|Type|Description
-----|----|-----------
+Type|Description
+----|-----------
+BetInfo|TODO
+
 <br />
 <br />
 
