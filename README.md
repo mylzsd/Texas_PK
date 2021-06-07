@@ -68,7 +68,7 @@ OUT|2|已从本场游戏中淘汰（筹码归零或犯规）
 Name|Type|Description
 ----|----|-----------
 suit|Suit|花色，共四种: 'spades'-黑桃, 'hearts'-红桃, 'clubs'-梅花, 'diamonds'-方块
-rank|int|数值，1-13。1->A, 11->J, 12->Q, 13->K
+rank|int|数值，2-14。11->J, 12->Q, 13->K, 14->A
 <br />
 <br />
 
