@@ -91,9 +91,9 @@ DIAMONDS|3|方块
 #### Attributes:
 Name|Type|Description
 ----|----|-----------
-player_seat|int|玩家的座次
 action|Action|操作类型。作为玩家返回值时，须为BET、ALLIN、FOLD中的一种；作为信息广播时，可为ACTION中任意值
 amount|int|下注的额度。作为玩家返回值且action为BET，或者作为信息广播且action为BET或ALLIN时，此参数才有意义，其他情况下无意义
+player_seat|int|执行该操作的玩家座次
 <br />
 <br />
 
