@@ -18,9 +18,9 @@ ranks|\[int\]|本场游戏的排名，以座位号对应玩家，在数组中的
 #### Attributes:
 Name|Type|Description
 ----|----|-----------
-button|int|本局游戏发牌人座位号
-small_blind|int|本局游戏小盲注座位号
-big_blind|int|本局游戏大盲注座位号
+button_seat|int|本局游戏发牌人座位号
+small_blind_seat|int|本局游戏小盲注座位号
+big_blind_seat|int|本局游戏大盲注座位号
 big_blind_amount|int|本局游戏大盲注的数额，小盲注为该数额的一半，该数额确保能被2整除，即小盲注也为整数。大盲注的额度为本局最小的下注额度。
 <br />
 <br />
