@@ -196,7 +196,7 @@ game_info|GameInfo|本场游戏结束时的信息，参考GameInfo类。此时pl
 ```Python
 round_start(self, round_info: RoundInfo) -> None
 ```
-每局游戏开始时，通过此函数将本局的信息同步给所有玩家，包括已淘汰的玩家。
+每局游戏开始时，通过此函数将本局的信息同步给所有玩家，包括已淘汰和弃牌的玩家。
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
@@ -210,7 +210,7 @@ round_info|RoundInfo|本局游戏基本信息，参考RoundInfo类。
 ```Python
 round_end(self, table_state: TableState) -> None
 ```
-筹码结算后通过此函数将桌面状态同步给所有玩家，包括已淘汰的玩家。
+筹码结算后通过此函数将桌面状态同步给所有玩家，包括已淘汰和弃牌的玩家。
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
@@ -238,7 +238,7 @@ table_state|TableState|本轮下注开始时桌面的信息。community_cards为
 ```Python
 turn_end(self, table_state: TableState) -> None
 ```
-当一轮下注结束后（包括盲注），通过此函数通知所有玩家，包括已淘汰的玩家。
+当一轮下注结束后（包括盲注），通过此函数通知所有玩家，包括已淘汰和弃牌的玩家。
 ##### Input：<br />
 Name|Type|Description
 ----|----|-----------
