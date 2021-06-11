@@ -34,6 +34,7 @@ curr_turn|int|当前轮次，每局游戏最多会有五轮下注，分别为：
 players|\[PlayerInfo\]|当前每位玩家的具体信息，玩家的座位号等于其在数组中的位置
 community_cards|\[Card\]|公共牌，最少零张，最多五张，扑克牌在数组中的位置越靠前表示这张牌越早发出
 curr_bet|BetInfo|本次玩家操作的信息
+curr_match_amount|int|当前轮次跟注的额度，如果涉及单轮多次下注，需要玩家结合自己之前下注额计算下次跟注所需的筹码
 pots|\[PotInfo\]|当前所有筹码池信息
 <br />
 <br />
@@ -214,6 +215,34 @@ round_end(self, table_state: TableState) -> None
 Name|Type|Description
 ----|----|-----------
 table_state|TableState|本局游戏结束时桌面的信息。其中各玩家的筹码为结算后的数额，curr_bet无效，pots中的的winners此时有效。
+
+<br />
+<br />
+
+****
+
+```Python
+turn_start(self, table_state: TableState) -> None
+```
+当新一轮下注开始时（包括盲注），通过此函数通知所有玩家，包括已淘汰和弃牌的玩家。
+##### Input：<br />
+Name|Type|Description
+----|----|-----------
+table_state|TableState|本轮下注开始时桌面的信息。community_cards为最新信息，curr_bet无效，pots中的的winners无效。
+
+<br />
+<br />
+
+****
+
+```Python
+turn_end(self, table_state: TableState) -> None
+```
+当一轮下注结束后（包括盲注），通过此函数通知所有玩家，包括已淘汰的玩家。
+##### Input：<br />
+Name|Type|Description
+----|----|-----------
+table_state|TableState|本轮下注结束时桌面的信息。curr_bet无效，pots中的的winners无效。
 
 <br />
 <br />
