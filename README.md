@@ -63,7 +63,7 @@ name|str|玩家ID，不体现真实身份，在同一桌的多场游戏中保持
 seat|int|玩家在本场游戏中的座位号
 state|PlayerState|玩家当前状态
 stack|int|玩家当前持有的筹码
-cards|\[Card\]|玩家手牌，在每局下注时隐藏，直到最后开牌比大小时显示
+cards|（Card, Card)|玩家手牌，固定两张，在每局下注时隐藏，直到最后开牌比大小时显示
 <br />
 <br />
 
