@@ -8,7 +8,7 @@ Name|Type|Description
 num_player|int|本场游戏玩家总数
 init_stack|int|每位玩家的起始筹码数量
 init_big_blind_amount|int|本场游戏初始大盲注数额，小盲注为该数额的一半，该数额确保能被2整除，即小盲注也为整数。随着游戏进行，盲注数额会逐渐增加。
-max_big_blind_amoun|int|本场游戏最高大盲注数额，当达到此数额时，大盲注不再随时间增加。
+max_big_blind_amount|int|本场游戏最高大盲注数额，当达到此数额时，大盲注不再随时间增加。
 players|\[PlayerInfo\]|每位玩家的具体信息，玩家的座位号等于其在数组中的位置
 ranks|\[int\]|本场游戏的排名，以座位号对应玩家，在数组中的位置越靠前则排名越高，在每场游戏结束时显示
 <br />
